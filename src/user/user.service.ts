@@ -13,10 +13,12 @@ import { Repository } from 'typeorm';
 export class UserService {
   constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
 
-  create(createUserDto: CreateUserDto) {
-    if (!this.userRepo.findOne({ where: { id: createUserDto.id } }))
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    if (
+      !(await this.userRepo.findOne({ where: { email: createUserDto.email } }))
+    )
       return this.userRepo.save(createUserDto);
-    else throw ConflictException;
+    else throw new ConflictException();
   }
 
   findAll() {
@@ -27,9 +29,11 @@ export class UserService {
     return this.userRepo.findOneBy({ id });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    if (!this.userRepo.findOne({ where: { id: updateUserDto.id } }))
-      throw NotFoundException;
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    if (
+      !(await this.userRepo.findOne({ where: { email: updateUserDto.email } }))
+    )
+      throw new NotFoundException();
     else return this.userRepo.save(updateUserDto);
   }
 
