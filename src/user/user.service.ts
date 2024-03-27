@@ -8,6 +8,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -16,17 +17,23 @@ export class UserService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     if (
       !(await this.userRepo.findOne({ where: { email: createUserDto.email } }))
-    )
+    ) {
+      createUserDto.password = await bcrypt.hash(createUserDto.password, 0);
+
       return this.userRepo.save(createUserDto);
-    else throw new ConflictException();
+    } else throw new ConflictException();
   }
 
   findAll() {
     return `This action returns all user`;
   }
 
-  findOne(id: number) {
+  findOneById(id: number) {
     return this.userRepo.findOneBy({ id });
+  }
+
+  findOne(email: string) {
+    return this.userRepo.findOneBy({ email });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {

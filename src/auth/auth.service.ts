@@ -1,21 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { User } from 'src/user/entities/user.entity';
+import { UserService } from 'src/user/user.service';
+import { AuthDto } from './dto/auth.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  constructor(private userService: UserService) {}
+
+  async validateUser(requestUser: AuthDto): Promise<User> {
+    const user = await this.userService.findOne(requestUser.email);
+    if (user && bcrypt.compare(requestUser.password, user.password))
+      return user;
+    else throw new UnauthorizedException();
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  async login(user: User) {
+    return {
+      user,
+    };
   }
 }
