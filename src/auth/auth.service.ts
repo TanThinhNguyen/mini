@@ -9,7 +9,7 @@ export class AuthService {
   constructor(private userService: UserService) {}
 
   async validateUser(requestUser: AuthDto): Promise<User> {
-    const user = await this.userService.findOne(requestUser.email);
+    const user = await this.userService.findOneByPhone(requestUser.phone);
     if (user && bcrypt.compare(requestUser.password, user.password))
       return user;
     else throw new UnauthorizedException();

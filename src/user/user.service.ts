@@ -28,23 +28,23 @@ export class UserService {
     return `This action returns all user`;
   }
 
-  findOneById(id: number) {
-    return this.userRepo.findOneBy({ id });
+  findOneByPhone(phone: string) {
+    return this.userRepo.findOneBy({ phone });
   }
 
   findOne(email: string) {
     return this.userRepo.findOneBy({ email });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(phone: string, updateUserDto: UpdateUserDto): Promise<User> {
     if (
-      !(await this.userRepo.findOne({ where: { email: updateUserDto.email } }))
+      !(await this.userRepo.findOne({ where: { phone: updateUserDto.phone } }))
     )
       throw new NotFoundException();
     else return this.userRepo.save(updateUserDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  remove(phone: string) {
+    return `This action removes a #${phone} user`;
   }
 }

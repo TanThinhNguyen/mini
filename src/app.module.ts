@@ -12,7 +12,7 @@ import { UserModule } from './user/user.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres', //doi cai nay thanh ten postgres tuong ung
-      password: 'jnhbgvfc', //doi password tuong ung
+      password: '123456', //doi password tuong ung
       database: 'api', //tao db ten api trong postgres
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
