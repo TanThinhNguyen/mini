@@ -46,7 +46,7 @@ export class UserService {
     else return this.userRepo.save(updateUserDto);
   }
 
-  remove(phone: string) {
-    return this.userRepo.delete({ phone });
+  async remove(phone: string) {
+    return await this.userRepo.delete({ phone });
   }
 }

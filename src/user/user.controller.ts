@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Put, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-
+import { User } from './entities/user.entity';
+import {UpdateUserDto} from './dto/update-user.dto'
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -30,10 +31,15 @@ export class UserController {
     return this.userService.findOne(email);
   }
 
+  @Put('phone')
+  update(@Query('phone') phone: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(phone,updateUserDto)
+  }
+
   @Delete('phone')
-  remove(@Query('phone') phone: string) {
+   remove(@Query('phone') phone: string) {
 
     console.log("?");
-    return this.userService.remove(phone);
+    return  this.userService.remove(phone);
   }
 }
