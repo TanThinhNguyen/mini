@@ -16,18 +16,18 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get(':phone')
+  @Get('phone')
   findOneByPhone(@Param('phone') phone: string) {
     return this.userService.findOneByPhone(phone);
   }
 
-  // @Get(':phone')
-  // findOne(@Param('email') email: string) {
-  //   return this.userService.findOne(email);
-  // }
+  @Get('email')
+  findOne(@Param('email') email: string) {
+    return this.userService.findOne(email);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.userService.remove(+id);
-  // }
+  @Delete('phone')
+  remove(@Param('phone') phone: string) {
+    return this.userService.remove(phone);
+  }
 }

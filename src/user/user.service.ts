@@ -45,6 +45,6 @@ export class UserService {
   }
 
   remove(phone: string) {
-    return `This action removes a #${phone} user`;
+    return this.userRepo.delete({ phone });
   }
 }
