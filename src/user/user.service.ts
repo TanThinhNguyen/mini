@@ -29,10 +29,12 @@ export class UserService {
   }
 
   findOneByPhone(phone: string) {
+    console.log(this.userRepo.findOneBy({ phone }));
     return this.userRepo.findOneBy({ phone });
   }
 
   findOne(email: string) {
+    console.log(this.userRepo.findOneBy({ email }));
     return this.userRepo.findOneBy({ email });
   }
 
