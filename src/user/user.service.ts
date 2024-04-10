@@ -39,14 +39,12 @@ export class UserService {
   }
 
   async update(phone: string, updateUserDto: UpdateUserDto): Promise<User> {
-    if (
-      !(await this.userRepo.findOne({ where: { phone: updateUserDto.phone } }))
-    )
+    if (!(await this.userRepo.findOne({ where: { phone } })))
       throw new NotFoundException();
-    else return this.userRepo.save(updateUserDto);
+    return this.userRepo.save(updateUserDto);
   }
 
   async remove(phone: string) {
-    return await this.userRepo.delete({ phone });
+    return await this.userRepo.delete(phone);
   }
 }
